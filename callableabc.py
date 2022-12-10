@@ -3,7 +3,7 @@
 from abc import ABCMeta
 from inspect import signature
 
-__version__ = "0.1"
+__version__ = "0.2"
 
 __all__ = ("CallableABCMetaDict", "CallableABCMeta", "CallableABC")
 

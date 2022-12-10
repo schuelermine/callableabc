@@ -3,9 +3,10 @@
 from abc import ABCMeta
 from inspect import signature
 
-__version__ = "0.3"
+__version__ = "0.4"
 
 __all__ = ("CallableABCMetaDict", "CallableABCMeta", "CallableABC")
+
 
 class CallableABCMetaDict(
     dict[str, object],
@@ -13,6 +14,7 @@ class CallableABCMetaDict(
     """
     Dictionary used by CallableABCMeta to collect the definition of _class_call().
     """
+
     _class_call: object | None
 
     __slots__ = ("_class_call",)
@@ -33,6 +35,7 @@ class CallableABCMeta(ABCMeta):
     but allows you to customize what happens when the class object gets called
     by implementing a _class_call() classmethod.
     """
+
     _class_call: object | None
 
     @classmethod
@@ -65,4 +68,5 @@ class CallableABC(metaclass=CallableABCMeta):
     Inherit this class and define a classmethod _class_call() to get an ABC but with custom call behaviour.
     Convenience instance of CallableABCMeta.
     """
+
     __slots__ = ()

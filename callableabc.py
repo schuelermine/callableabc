@@ -1,5 +1,9 @@
+"""A variant of ABC that allows customizing the call behavior via _class_call()"""
+
 from abc import ABCMeta
 from inspect import signature
+
+__version__ = "0.7"
 
 __all__ = ("CallableABCMetaDict", "CallableABCMeta", "CallableABC")
 

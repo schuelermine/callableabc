@@ -1,10 +1,8 @@
 from abc import ABCMeta
-from inspect import signature
+from inspect import signature, Signature
 
 
-class CallableABCMetaDict(
-    dict[str, object],
-):
+class CallableABCMetaDict(dict[str, object]):
     """
     Dictionary used by CallableABCMeta to collect the definition of _class_call().
     """
@@ -31,6 +29,7 @@ class CallableABCMeta(ABCMeta):
     """
 
     _class_call: object | None
+    __signature__: Signature | None
 
     @classmethod
     def __prepare__(
@@ -41,25 +40,32 @@ class CallableABCMeta(ABCMeta):
     def __init__(
         self, name: str, bases: tuple[type, ...], namespace: CallableABCMetaDict
     ) -> None:
-        self._class_call = namespace._class_call
+        class_call = object.__getattribute__(namespace, "_class_call")
+        self._class_call = class_call
+        bound_class_call = self._class_call
+        if callable(bound_class_call):
+            try:
+                self.__signature__ = signature(bound_class_call)
+            except ValueError:
+                pass
         super().__init__(name, bases, namespace)
 
     def __call__(self, *args: object, **kwds: object) -> object:
-        _class_call = self._class_call
-        if _class_call is not None and callable(_class_call):
+        class_call = self._class_call
+        if class_call is not None and callable(class_call):
             try:
-                # Try to catch incorrect args early to hide __class_call__
-                sig = signature(_class_call)
+                # Try to catch incorrect args early to hide _class_call
+                sig = signature(class_call)
                 sig.bind(*args, **kwds)
             except ValueError:  # Signature does not exist
                 pass
-            return _class_call(*args, **kwds)
+            return class_call(*args, **kwds)
         return super().__call__(*args, **kwds)
 
 
 class CallableABC(metaclass=CallableABCMeta):
     """
-    Inherit this class and define a classmethod _class_call() to get an ABC but with custom call behaviour.
+    Inherit this class and define a classmethod _class_call() to get an ABC but with custom call behavior.
     Convenience instance of CallableABCMeta.
     """
 

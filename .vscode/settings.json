@@ -1,5 +1,5 @@
 {
-    "mypy.dmypyExecutable": "${workspaceFolder}/.direnv/python-3.10.8/bin/dmypy",
+    "mypy.dmypyExecutable": "dmypy",
     "cSpell.words": [
         "callableabc"
     ]

@@ -1,7 +1,7 @@
 """A variant of ABC that allows customizing the call behavior via _class_call()"""
 
-__version__ = "1.1.0"
+__version__ = "2.0.0"
 
-from callableabc.callableabc import CallableABC, CallableABCMeta, CallableABCMetaDict
+from callableabc.callableabc import CallableABC
 
-__all__ = ("CallableABCMetaDict", "CallableABCMeta", "CallableABC")
+__all__ = ("CallableABC",)

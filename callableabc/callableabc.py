@@ -19,11 +19,6 @@ def make_callable_abc_meta(class_call_name: str, /) -> type:
 
         __call__.qualname = "CallableABCMeta.__call__"  # type: ignore
 
-        def __repr__(self) -> str:
-            return f"{self.__name__}({class_call_name!r})"
-
-        __repr__.qualname = "CallableABCMeta.__repr__"  # type: ignore
-
     CallableABCMeta.__qualname__ = "CallableABCMeta"
     return CallableABCMeta
 

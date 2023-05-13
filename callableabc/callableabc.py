@@ -3,6 +3,12 @@ from abc import ABCMeta
 
 def make_callable_abc_meta(class_call_name: str, /) -> type:
     class CallableABCMeta(ABCMeta):
+        @classmethod
+        def __prepare__(cls, name: str, bases: tuple[type, ...], /, **kwds: object) -> dict[str, object]:
+            namespace = dict(super().__prepare__(name, bases, **kwds))
+            namespace[class_call_name] = None
+            return namespace
+
         def __init__(
             self, name: str, bases: tuple[type, ...], namespace: dict[str, object]
         ) -> None:
